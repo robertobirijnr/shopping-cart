@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Products = require("../models/product");
-const Cart = require("../models/card");
+const Cart = require("../models/cart");
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
@@ -29,8 +29,19 @@ router.get("/add-to-cart/:id", (req, res) => {
 
     cart.add(product, product.id);
     req.session.cart = cart;
-    console.log(req.session.cart);
+    // console.log(req.session.cart);
     res.redirect("/");
+  });
+});
+
+router.get("/shopping-cart", (req, res, next) => {
+  if (!req.session.cart) {
+    return res.render("shop/shopping-cart", { products: null });
+  }
+  let cart = new Cart(req.session.cart);
+  res.render("shop/shopping-cart", {
+    products: cart.generateArray(),
+    totalPrice: cart.totalPrice
   });
 });
 

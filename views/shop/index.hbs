@@ -8,7 +8,9 @@
                 <h3>{{this.title}}</h3>
                 <p class="description">{{this.description}}</p>
                 <div class="clearfix">
-                    <div class="price pull-left">ghc {{this.price}}</div>
+                    <div class="price pull-left">ghc<span
+                            class="badge badge-secondary">{{this.session.cart.totalQty}}</span>
+                        {{this.price}}</div>
                     <a href="/add-to-cart/{{this._id}}" class="btn btn-success pull-right" role="button">Add to Shopping
                         Cart</a>
                 </div>
