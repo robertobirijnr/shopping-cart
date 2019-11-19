@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Products = require("../models/product");
-
+const Cart = require("../models/card");
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
@@ -18,6 +18,20 @@ router.get("/", function(req, res, next) {
   });
 });
 
+router.get("/add-to-cart/:id", (req, res) => {
+  let productId = req.params.id;
+  let cart = new Cart(req.session.cart ? req.session.cart : {});
 
+  Products.findById(productId, function(err, product) {
+    if (err) {
+      return res.redirect("/");
+    }
+
+    cart.add(product, product.id);
+    req.session.cart = cart;
+    console.log(req.session.cart);
+    res.redirect("/");
+  });
+});
 
 module.exports = router;
